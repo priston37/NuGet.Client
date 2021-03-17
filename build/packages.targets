@@ -17,8 +17,6 @@
     <ItemGroup>
         <!-- PackageDownload -->
         <PackageDownload Update="Microsoft.Build" Version="[15.1.262-preview5]" />
-        <PackageDownload Update="Microsoft.VisualStudio.ProjectSystem.Managed" Version="[16.7.0-beta1-65318-02]" />
-        <PackageDownload Update="Microsoft.VisualStudio.ProjectSystem.Managed.VS" Version="[16.7.0-beta1-65318-02]" />
         <PackageDownload Update="NuGet.Core" Version="[$(NuGetCoreV2Version)]" />
         <PackageDownload Update="VSLangProj140" Version="[14.0.25029]" />
         <PackageDownload Update="VSLangProj150" Version="[1.0.0]" />
@@ -30,7 +28,11 @@
         <PackageReference Update="Microsoft.Build.Locator" Version="1.2.6" />
         <PackageReference Update="Microsoft.Build.Tasks.Core" Version="$(MicrosoftBuildPackageVersion)" />
         <PackageReference Update="Microsoft.Build.Utilities.Core" Version="$(MicrosoftBuildPackageVersion)" />
-        <PackageReference Update="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8" />
+        <PackageReference Update="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0" />
+        <PackageReference Update="Microsoft.CodeAnalysis" Version="3.8.0" />
+        <PackageReference Update="Microsoft.VisualStudio.ProjectSystem.Managed" Version="16.8.1-beta1-928-02" />
+        <PackageReference Update="Microsoft.VisualStudio.ProjectSystem.Managed.VS" Version="16.8.1-beta1-928-02" />
+        <PackageReference Update="Microsoft.VisualStudio.LanguageServices" Version="3.8.0" />
         <PackageReference Update="Microsoft.DataAI.NuGetRecommender.Contracts" Version="2.1.0" />
         <PackageReference Update="Microsoft.Extensions.CommandLineUtils" Version="1.0.1" />
         <PackageReference Update="Microsoft.Internal.VisualStudio.Shell.Embeddable" Version="$(VSFrameworkVersion)" />
@@ -38,7 +40,7 @@
         <PackageReference Update="Microsoft.ServiceHub.Framework" Version="2.7.327-preview" />
         <PackageReference Update="Microsoft.TeamFoundationServer.ExtendedClient" Version="$(VSServicesVersion)" />
         <PackageReference Update="Microsoft.VisualStudio.ComponentModelHost" Version="16.9.119-preview" />
-        <PackageReference Update="Microsoft.VisualStudio.Composition" Version="16.4.11" />
+        <PackageReference Update="Microsoft.VisualStudio.Composition" Version="16.5.13" />
         <PackageReference Update="Microsoft.VisualStudio.Editor" Version="16.9.119-preview" />
         <PackageReference Update="Microsoft.VisualStudio.Language.Intellisense" Version="16.9.119-preview" />
         <PackageReference Update="Microsoft.VisualStudio.Language.StandardClassification" Version="16.9.119-preview" />
@@ -86,9 +88,8 @@
         <PackageReference Update="FluentAssertions" Version="5.4.1" />
         <PackageReference Update="Microsoft.Build.Runtime" Version="$(MicrosoftBuildPackageVersion)" />
         <PackageReference Update="Microsoft.CSharp" Version="$(SystemPackagesVersion)" />
-        <PackageReference Update="Microsoft.CodeAnalysis" Version="3.0.0" />
-        <PackageReference Update="Microsoft.CodeAnalysis.Build.Tasks" Version="3.0.0-dev-61717-03" />
-        <PackageReference Update="Microsoft.CodeAnalysis.CSharp" Version="3.0.0-dev-61717-03" />
+        <PackageReference Update="Microsoft.CodeAnalysis.Build.Tasks" Version="3.9.0-5.21120.8" />
+        <PackageReference Update="Microsoft.CodeAnalysis.CSharp" Version="3.8.0" />
         <PackageReference Update="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.0.0" />
         <PackageReference Update="Microsoft.Net.Compilers.netcore" Version="3.0.0-dev-61717-03" />
         <PackageReference Update="Microsoft.NET.Test.Sdk" Version="15.5.0" />
