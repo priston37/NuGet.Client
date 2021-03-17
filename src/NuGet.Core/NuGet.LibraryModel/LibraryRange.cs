@@ -74,7 +74,7 @@ namespace NuGet.LibraryModel
             {
                 if (VersionRange.HasLowerBound)
                 {
-                    sb.Append(" ");
+                    sb.Append(' ');
 
                     if (VersionRange.IsMinInclusive)
                     {

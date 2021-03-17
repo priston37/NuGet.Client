@@ -273,7 +273,7 @@ namespace NuGet.Frameworks
 
                 if (IsPCL)
                 {
-                    sb.Append("-");
+                    sb.Append('-');
 
                     IEnumerable<NuGetFramework> frameworks = null;
                     if (framework.HasProfile
@@ -302,7 +302,7 @@ namespace NuGet.Frameworks
                 {
                     if (!string.IsNullOrEmpty(framework.Platform))
                     {
-                        sb.Append("-");
+                        sb.Append('-');
                         sb.Append(framework.Platform.ToLowerInvariant());
 
                         if (framework.PlatformVersion != FrameworkConstants.EmptyVersion)
@@ -324,7 +324,7 @@ namespace NuGet.Frameworks
 
                     if (!string.IsNullOrEmpty(shortProfile))
                     {
-                        sb.Append("-");
+                        sb.Append('-');
                         sb.Append(shortProfile);
                     }
                 }

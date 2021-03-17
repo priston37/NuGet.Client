@@ -318,7 +318,7 @@ namespace NuGet.Versioning
 
             if (useParentheses)
             {
-                sb.Append(")");
+                sb.Append(')');
             }
 
             return sb.ToString();
@@ -330,10 +330,10 @@ namespace NuGet.Versioning
 
             if (inclusive)
             {
-                sb.Append("=");
+                sb.Append('=');
             }
 
-            sb.Append(" ");
+            sb.Append(' ');
             sb.AppendFormat(VersionFormatter, ZeroN, version);
         }
     }

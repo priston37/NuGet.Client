@@ -26,7 +26,7 @@ namespace NuGet.LibraryModel
         {
             var sb = new StringBuilder();
             sb.Append(Name);
-            sb.Append(" ");
+            sb.Append(' ');
             sb.Append(VersionRange);
             return sb.ToString();
         }

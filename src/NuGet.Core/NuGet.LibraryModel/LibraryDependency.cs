@@ -101,9 +101,9 @@ namespace NuGet.LibraryModel
         {
             var sb = new StringBuilder();
             sb.Append(LibraryRange);
-            sb.Append(" ");
+            sb.Append(' ');
             sb.Append(Type);
-            sb.Append(" ");
+            sb.Append(' ');
             sb.Append(LibraryIncludeFlagUtils.GetFlagString(IncludeType));
             return sb.ToString();
         }
