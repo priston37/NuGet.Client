@@ -211,7 +211,7 @@ Try
         1..$iterationCount | % { RunRestore @arguments }
     }
 
-    If (!$skipColdRestores)
+    If ($skipColdRestores)
     {
         Log "Running $($iterationCount)x without a global packages folder"
         $enabledSwitches = @("cleanGlobalPackagesFolder", "killMSBuildAndDotnetExeProcess")
@@ -227,7 +227,7 @@ Try
         1..$iterationCount | % { RunRestore @arguments }
     }
 
-    If (!$skipForceRestores)
+    If ($skipForceRestores)
     {
         Log "Running $($iterationCount)x force restores"
         $enabledSwitches = @("force")
@@ -239,7 +239,7 @@ Try
         1..$iterationCount | % { RunRestore @arguments }
     }
 
-    If (!$skipNoOpRestores)
+    If ($skipNoOpRestores)
     {
         Log "Running $($iterationCount)x no-op restores"
         If ($staticGraphRestore)
