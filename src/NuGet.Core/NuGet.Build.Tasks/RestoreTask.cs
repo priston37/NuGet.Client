@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.Build.Framework;
 using NuGet.Commands;
 using NuGet.Common;
+using NuGet.Frameworks;
 
 namespace NuGet.Build.Tasks
 {
@@ -125,7 +126,7 @@ namespace NuGet.Build.Tasks
 
             var dgFile = MSBuildRestoreUtility.GetDependencySpec(wrappedItems);
 
-            return await BuildTasksUtility.RestoreAsync(
+            var result = await BuildTasksUtility.RestoreAsync(
                 dependencyGraphSpec: dgFile,
                 interactive: Interactive,
                 recursive: RestoreRecursive,
@@ -138,6 +139,9 @@ namespace NuGet.Build.Tasks
                 restorePC: RestorePackagesConfig,
                 log: log,
                 cancellationToken: _cts.Token);
+
+            log.LogMinimal("Stuff: " + NuGetFrameworkUtility.CallCount);
+            return result;
         }
 
         public void Cancel()

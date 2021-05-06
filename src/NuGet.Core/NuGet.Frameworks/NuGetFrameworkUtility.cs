@@ -14,6 +14,9 @@ namespace NuGet.Frameworks
 #endif
     static class NuGetFrameworkUtility
     {
+#pragma warning disable CA2211 // Non-constant fields should not be visible
+        public static int CallCount = 0;
+#pragma warning restore CA2211 // Non-constant fields should not be visible
         /// <summary>
         /// Find the most compatible group based on target framework
         /// </summary>
@@ -55,6 +58,7 @@ namespace NuGet.Frameworks
 
             if (items != null)
             {
+                CallCount++;
                 var reducer = new FrameworkReducer(frameworkMappings, compatibilityProvider);
 
                 var mostCompatibleFramework = reducer.GetNearest(framework, items.Select(selector));
