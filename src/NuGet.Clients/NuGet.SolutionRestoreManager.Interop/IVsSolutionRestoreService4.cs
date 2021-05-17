@@ -10,22 +10,34 @@ namespace NuGet.SolutionRestoreManager
 {
     /// <summary>
     /// Represents a package restore service API for integration with a project system.
+<<<<<<< HEAD
     /// Implemented by NuGet.
+=======
+>>>>>>> b35899eca (Clean-up)
     /// </summary>
     [ComImport]
     [Guid("72327117-6552-4685-BD7E-9C40A04B6EE5")]
     public interface IVsSolutionRestoreService4
     {
         /// <summary>
+<<<<<<< HEAD
         /// A project system can call this service (optionally) to register itself to coordinate restore. <br/>
         /// Each project can only register once. NuGet will call into the source to wait for nominations for restore. <br/>
+=======
+        /// A project system can call this service (optionally) to register itself to coordinate restore.
+        /// Each project can only register once. NuGet will call into the source to wait for nominations for restore.
+>>>>>>> b35899eca (Clean-up)
         /// NuGet will remove the registered object when a project is unloaded.
         /// </summary>
         /// <param name="restoreInfoSource">Represents a project specific info source</param>
         /// <param name="cancellationToken">Cancellation token.</param>
+<<<<<<< HEAD
         /// <exception cref="InvalidOperationException">If the project has already been registered.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="restoreInfoSource"/> is null. </exception>
         /// <exception cref="ArgumentException">If <paramref name="restoreInfoSource"/>'s <see cref="IVsProjectRestoreInfoSource.Name"/> is <see langword="null"/>. </exception>
         Task RegisterRestoreInfoSourceAsync(IVsProjectRestoreInfoSource restoreInfoSource, CancellationToken cancellationToken);
+=======
+        public Task RegisterRestoreInfoSourceAsync(IVsProjectRestoreInfoSource restoreInfoSource, CancellationToken cancellationToken);
+>>>>>>> b35899eca (Clean-up)
     }
 }
