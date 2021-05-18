@@ -30,7 +30,7 @@ Param(
     [string[]] $nugetClientFilePaths,
     [string] $testRootFolderPath,
     [string] $logsFolderPath,
-    [int] $iterationCount = 100,
+    [int] $iterationCount = 3,
     [switch] $skipRepoCleanup
 )
 
