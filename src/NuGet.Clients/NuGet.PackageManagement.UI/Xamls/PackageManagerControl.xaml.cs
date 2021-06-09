@@ -40,7 +40,6 @@ namespace NuGet.PackageManagement.UI
     /// </summary>
     public partial class PackageManagerControl : UserControl, IVsWindowSearch, IDisposable
     {
-        internal event EventHandler _actionCompleted;
         internal DetailControlModel _detailModel;
         internal CancellationTokenSource _loadCts;
         private CancellationTokenSource _cancelSelectionChangedSource;
@@ -1416,8 +1415,6 @@ namespace NuGet.PackageManagement.UI
                         EmitRefreshEvent(timeSinceLastRefresh, RefreshOperationSource.ExecuteAction, RefreshOperationStatus.Success);
                         _isRefreshRequired = false;
                     }
-
-                    _actionCompleted?.Invoke(this, EventArgs.Empty);
                 }
             })
             .PostOnFailure(nameof(PackageManagerControl), nameof(ExecuteAction));
