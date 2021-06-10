@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,5 +31,7 @@ namespace NuGet.SolutionRestoreManager
         /// Restores running due to Install/Update/Uninstall operations are NOT included in this status. Status here is limited to IVsSolutionRestoreService.
         /// </remarks>
         Task<bool> IsRestoreCompleteAsync(CancellationToken token);
+
+        // TODO NK - Should the events be added here?
     }
 }
