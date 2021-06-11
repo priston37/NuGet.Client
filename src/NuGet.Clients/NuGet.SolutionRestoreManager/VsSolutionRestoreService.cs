@@ -34,10 +34,7 @@ namespace NuGet.SolutionRestoreManager
     [Export(typeof(IVsSolutionRestoreService))]
     [Export(typeof(IVsSolutionRestoreService2))]
     [Export(typeof(IVsSolutionRestoreService3))]
-<<<<<<< HEAD
     [Export(typeof(IVsSolutionRestoreService4))]
-=======
->>>>>>> b35899eca (Clean-up)
     public sealed class VsSolutionRestoreService : IVsSolutionRestoreService, IVsSolutionRestoreService2, IVsSolutionRestoreService3, IVsSolutionRestoreService4
     {
         private readonly IProjectSystemCache _projectSystemCache;
@@ -327,12 +324,6 @@ namespace NuGet.SolutionRestoreManager
             return dgSpec;
         }
 
-<<<<<<< HEAD
-        public Task RegisterRestoreInfoSourceAsync(IVsProjectRestoreInfoSource restoreInfoSource, CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
-            // TODO: https://github.com/NuGet/Home/issues/10678
-=======
         public async System.Threading.Tasks.Task RegisterRestoreInfoSourceAsync(IVsProjectRestoreInfoSource restoreInfoSource, CancellationToken token)
         {
             if (restoreInfoSource == null)
@@ -377,7 +368,6 @@ namespace NuGet.SolutionRestoreManager
                 // When disposed, delete the registration object from the cache.
                 _disposed = true;
             }
->>>>>>> b35899eca (Clean-up)
         }
     }
 }

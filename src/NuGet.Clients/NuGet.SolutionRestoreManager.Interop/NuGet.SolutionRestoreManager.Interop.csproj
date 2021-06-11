@@ -12,7 +12,6 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Description>APIs for invoking NuGet Restore Manager in Visual Studio.</Description>
     <AssemblyDescription>$(Description)</AssemblyDescription>
-    <NoWarn>$(NoWarn);RS0016</NoWarn>
   </PropertyGroup>
 
   <Import Project="$(BuildCommonDirectory)common.targets" />

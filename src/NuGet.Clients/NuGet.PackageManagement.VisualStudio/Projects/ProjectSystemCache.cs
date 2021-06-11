@@ -494,7 +494,6 @@ namespace NuGet.PackageManagement.VisualStudio
             public ProjectNames ProjectNames { get; set; }
             public IReadOnlyList<IAssetsLogMessage> AdditionalMessages { get; set; }
             public object ProjectRestoreInfoSource { get; set; }
-
         }
 
         private void FireCacheUpdatedEvent(string projectFullName)
