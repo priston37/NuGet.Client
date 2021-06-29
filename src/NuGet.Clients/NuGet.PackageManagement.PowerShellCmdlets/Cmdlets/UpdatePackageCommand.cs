@@ -158,7 +158,20 @@ namespace NuGet.PackageManagement.PowerShellCmdlets
                 var projectNames = string.Join(",", Projects.Where(e => e is BuildIntegratedNuGetProject).Select(p => NuGetProject.GetUniqueNameOrName(p)));
                 if (!string.IsNullOrEmpty(projectNames))
                 {
-                    var warning = string.Format(CultureInfo.CurrentUICulture, Resources.Warning_SourceNotRespectedForProjectType, nameof(Source), projectNames);
+                    var warning = string.Format(CultureInfo.CurrentCulture, Resources.Warning_SourceNotRespectedForProjectType, nameof(Source), projectNames);
+                    Log(MessageLevel.Warning, warning);
+                }
+            }
+        }
+
+        private void WarnForReinstallOfBuildIntegratedProjects(IEnumerable<BuildIntegratedNuGetProject> projects)
+        {
+            if (projects.Any())
+            {
+                var projectNames = string.Join(",", projects.Select(p => NuGetProject.GetUniqueNameOrName(p)));
+                if (!string.IsNullOrEmpty(projectNames))
+                {
+                    var warning = string.Format(CultureInfo.CurrentCulture, Resources.Warning_ReinstallNotRespectedForProjectType, nameof(Source), projectNames);
                     Log(MessageLevel.Warning, warning);
                 }
             }
@@ -182,9 +195,22 @@ namespace NuGet.PackageManagement.PowerShellCmdlets
                         new GatherCache(),
                         sourceCacheContext);
 
+                    // PackageReference projects don't support `Update-Package -Reinstall`. 
+                    var relevantProjects = Projects;
+                    if (Reinstall.IsPresent)
+                    {
+                        var groupedProjects = Projects.GroupBy(e => e is BuildIntegratedNuGetProject);
+                        var buildIntegratedProjects = groupedProjects.Where(e => e.Key).FirstOrDefault();
+                        if (buildIntegratedProjects != null && buildIntegratedProjects.Any())
+                        {
+                            WarnForReinstallOfBuildIntegratedProjects(buildIntegratedProjects.AsEnumerable().Cast<BuildIntegratedNuGetProject>());
+                            relevantProjects = groupedProjects.Where(e => !e.Key).FirstOrDefault().ToList();
+                        }
+                    }
+
                     // if the source is explicitly specified we will use exclusively that source otherwise use ALL enabled sources
                     var actions = await PackageManager.PreviewUpdatePackagesAsync(
-                        Projects,
+                        relevantProjects,
                         resolutionContext,
                         this,
                         PrimarySourceRepositories,
@@ -299,12 +325,25 @@ namespace NuGet.PackageManagement.PowerShellCmdlets
                     new GatherCache(),
                     sourceCacheContext);
 
+                // PackageReference projects don't support `Update-Package -Reinstall`. 
+                var relevantProjects = Projects;
+                if (Reinstall.IsPresent)
+                {
+                    var groupedProjects = Projects.GroupBy(e => e is BuildIntegratedNuGetProject);
+                    var buildIntegratedProjects = groupedProjects.Where(e => e.Key).FirstOrDefault();
+                    if (buildIntegratedProjects != null && buildIntegratedProjects.Any())
+                    {
+                        WarnForReinstallOfBuildIntegratedProjects(buildIntegratedProjects.AsEnumerable().Cast<BuildIntegratedNuGetProject>());
+                        relevantProjects = groupedProjects.Where(e => !e.Key).FirstOrDefault().ToList();
+                    }
+                }
+
                 // If -Version switch is specified
                 if (!string.IsNullOrEmpty(Version))
                 {
                     actions = await PackageManager.PreviewUpdatePackagesAsync(
                         new PackageIdentity(Id, PowerShellCmdletsUtility.GetNuGetVersionFromString(Version)),
-                        Projects,
+                        relevantProjects,
                         resolutionContext,
                         this,
                         PrimarySourceRepositories,
@@ -315,7 +354,7 @@ namespace NuGet.PackageManagement.PowerShellCmdlets
                 {
                     actions = await PackageManager.PreviewUpdatePackagesAsync(
                         Id,
-                        Projects,
+                        relevantProjects,
                         resolutionContext,
                         this,
                         PrimarySourceRepositories,
