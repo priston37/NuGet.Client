@@ -171,7 +171,7 @@ namespace NuGet.PackageManagement.PowerShellCmdlets
                 var projectNames = string.Join(",", projects.Select(p => NuGetProject.GetUniqueNameOrName(p)));
                 if (!string.IsNullOrEmpty(projectNames))
                 {
-                    var warning = string.Format(CultureInfo.CurrentCulture, Resources.Warning_ReinstallNotRespectedForProjectType, nameof(Source), projectNames);
+                    var warning = string.Format(CultureInfo.CurrentCulture, Resources.Warning_ReinstallNotRespectedForProjectType, projectNames);
                     Log(MessageLevel.Warning, warning);
                 }
             }
@@ -204,7 +204,8 @@ namespace NuGet.PackageManagement.PowerShellCmdlets
                         if (buildIntegratedProjects != null && buildIntegratedProjects.Any())
                         {
                             WarnForReinstallOfBuildIntegratedProjects(buildIntegratedProjects.AsEnumerable().Cast<BuildIntegratedNuGetProject>());
-                            relevantProjects = groupedProjects.Where(e => !e.Key).FirstOrDefault().ToList();
+                            var nonBuildIntegratedProjects = groupedProjects.Where(e => !e.Key).FirstOrDefault();
+                            relevantProjects = nonBuildIntegratedProjects?.ToList() ?? new List<NuGetProject>();
                         }
                     }
 
@@ -334,7 +335,8 @@ namespace NuGet.PackageManagement.PowerShellCmdlets
                     if (buildIntegratedProjects != null && buildIntegratedProjects.Any())
                     {
                         WarnForReinstallOfBuildIntegratedProjects(buildIntegratedProjects.AsEnumerable().Cast<BuildIntegratedNuGetProject>());
-                        relevantProjects = groupedProjects.Where(e => !e.Key).FirstOrDefault().ToList();
+                        var nonBuildIntegratedProjects = groupedProjects.Where(e => !e.Key).FirstOrDefault();
+                        relevantProjects = nonBuildIntegratedProjects?.ToList() ?? new List<NuGetProject>();
                     }
                 }
 
