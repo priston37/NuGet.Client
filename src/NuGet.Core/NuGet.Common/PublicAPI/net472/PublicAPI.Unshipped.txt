@@ -1,1 +1,2 @@
+NuGet.Common.Counter
 NuGet.Common.TelemetryActivity.StartIndependentInterval(string propertyName) -> System.IDisposable

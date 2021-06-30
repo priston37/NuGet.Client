@@ -66,10 +66,12 @@ namespace NuGet.Commands
         {
             var runtimeIdentifier = targetGraph.RuntimeIdentifier;
             var framework = targetFrameworkOverride ?? targetGraph.Framework;
-
+            Counter.IncrementTotalCreateLockFileTargetLibraryCallCount();
             return cache.GetLockFileTargetLibrary(targetGraph, framework, package, aliases, dependencyType,
                 () =>
                 {
+                    var name = package.ExpandedPath + " + " + framework.ToString() + targetGraph.TargetGraphName;
+                    Counter.IncrementCreateLockFileTargetLibraryCallCount(name);
                     LockFileTargetLibrary lockFileLib = null;
                     // This will throw an appropriate error if the nuspec is missing
                     var nuspec = package.Nuspec;

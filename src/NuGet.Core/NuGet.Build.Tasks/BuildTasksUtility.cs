@@ -306,6 +306,12 @@ namespace NuGet.Build.Tasks
                 {
                     RestoreSummary.Log(log, restoreSummaries);
                 }
+
+                log.LogMinimal("Counter: " + Counter.CreateLockFileTargetLibraryCallCount + " Total: " + Counter.TotalCreateLockFileTargetLibraryCallCount);
+                foreach(var package in Counter.PackagesGenerated)
+                {
+                    log.LogMinimal(package);
+                }
                 return restoreSummaries.All(x => x.Success);
             }
             finally
