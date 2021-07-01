@@ -36,8 +36,7 @@ namespace NuGet.Commands
         public LockFile CreateLockFile(LockFile previousLockFile,
             PackageSpec project,
             IEnumerable<RestoreTargetGraph> targetGraphs,
-            IReadOnlyList<NuGetv3LocalRepository> localRepositories,
-            RemoteWalkContext context)
+            IReadOnlyList<NuGetv3LocalRepository> localRepositories)
         {
             return CreateLockFile(previousLockFile,
                 project,
@@ -258,7 +257,7 @@ namespace NuGet.Commands
                                 dependencies: graphItem.Data.Dependencies,
                                 cache: lockFileBuilderCache);
 
-                            if (!targetLibrary.Equals(targetLibraryWithoutFallback))
+                            if (!targetLibrary.Equals(targetLibraryWithoutFallback) || graphItem.Data.UsedATFForDependencies)
                             {
                                 var libraryName = DiagnosticUtility.FormatIdentity(library);
 

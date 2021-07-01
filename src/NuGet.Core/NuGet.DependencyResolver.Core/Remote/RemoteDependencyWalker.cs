@@ -128,7 +128,7 @@ namespace NuGet.DependencyResolver
                     framework,
                     runtimeName,
                     _context,
-                    CancellationToken.None)
+                    token)
             };
 
             Debug.Assert(node.Item != null, "FindLibraryCached should return an unresolved item instead of null");

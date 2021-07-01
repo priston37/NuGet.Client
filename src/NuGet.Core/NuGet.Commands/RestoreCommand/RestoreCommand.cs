@@ -735,8 +735,7 @@ namespace NuGet.Commands
             LockFile existingLockFile,
             PackageSpec project,
             IEnumerable<RestoreTargetGraph> graphs,
-            IReadOnlyList<NuGetv3LocalRepository> localRepositories,
-            RemoteWalkContext contextForProject)
+            IReadOnlyList<NuGetv3LocalRepository> localRepositories)
         {
             // Build the lock file
             var lockFile = new LockFileBuilder(_request.LockFileVersion, _logger, _includeFlagGraphs)
