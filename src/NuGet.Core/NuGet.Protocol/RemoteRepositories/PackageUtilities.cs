@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using NuGet.Common;
@@ -17,7 +16,7 @@ namespace NuGet.Protocol
         /// <summary>
         /// Create a <see cref="NuspecReader"/> from a nupkg stream.
         /// </summary>
-        internal static (IEnumerable<string>, NuspecReader) OpenNuspecFromNupkg(string id, Stream nupkgStream, ILogger log)
+        internal static NuspecReader OpenNuspecFromNupkg(string id, Stream nupkgStream, ILogger log)
         {
             try
             {
@@ -29,7 +28,7 @@ namespace NuGet.Protocol
                         throw new FatalProtocolException(string.Format(CultureInfo.CurrentCulture, Strings.Log_FailedToGetNuspecStream, id));
                     }
 
-                    return (reader.GetFiles(), new NuspecReader(nuspecStream));
+                    return new NuspecReader(nuspecStream);
                 }
             }
             catch (Exception exception) when (exception is PackagingException ||
