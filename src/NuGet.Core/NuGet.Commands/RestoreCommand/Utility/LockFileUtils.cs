@@ -95,8 +95,7 @@ namespace NuGet.Commands
 
                         if (lockFileLib.PackageType.Contains(PackageType.DotnetTool))
                         {
-                            AddToolsAssets(library, package, targetGraph, dependencyType, lockFileLib, framework,
-                                runtimeIdentifier, contentItems, nuspec, orderedCriteriaSets[i]);
+                            AddToolsAssets(targetGraph.Conventions,  lockFileLib, contentItems, orderedCriteriaSets[i]);
                             if (CompatibilityChecker.HasCompatibleToolsAssets(lockFileLib))
                             {
                                 break;
@@ -104,7 +103,7 @@ namespace NuGet.Commands
                         }
                         else
                         {
-                            AddAssets(aliases, library, package, targetGraph, dependencyType, lockFileLib,
+                            AddAssets(aliases, library, package, targetGraph.Conventions, dependencyType, lockFileLib,
                                 framework, runtimeIdentifier, contentItems, nuspec, orderedCriteriaSets[i]);
                             // Check if compatile assets were found.
                             // If no compatible assets were found and this is the last check
@@ -143,11 +142,11 @@ namespace NuGet.Commands
             if (assetTargetFallback != null)
             {
                 // Add the root project framework first.
-                orderedCriteriaSets.Add(CreateCriteria(targetGraph, assetTargetFallback.RootFramework));
+                orderedCriteriaSets.Add(CreateCriteria(codeConventions, assetTargetFallback.RootFramework));
                 // Add the secondary framework if dual compatibility framework.
                 if (assetTargetFallback.RootFramework is DualCompatibilityFramework dualCompatibilityFramework)
                 {
-                    orderedCriteriaSets.Add(CreateCriteria(targetGraph, dualCompatibilityFramework.SecondaryFramework));
+                    orderedCriteriaSets.Add(CreateCriteria(codeConventions, dualCompatibilityFramework.SecondaryFramework));
                 }
 
                 // Add all fallbacks in order.
@@ -156,11 +155,11 @@ namespace NuGet.Commands
             else
             {
                 // Add the current framework.
-                orderedCriteriaSets.Add(CreateCriteria(targetGraph, framework));
+                orderedCriteriaSets.Add(CreateCriteria(codeConventions, framework));
 
                 if (framework is DualCompatibilityFramework dualCompatibilityFramework)
                 {
-                    orderedCriteriaSets.Add(CreateCriteria(targetGraph, dualCompatibilityFramework.SecondaryFramework));
+                    orderedCriteriaSets.Add(CreateCriteria(codeConventions, dualCompatibilityFramework.SecondaryFramework));
                 }
             }
 
@@ -204,8 +203,8 @@ namespace NuGet.Commands
                 orderedCriteria,
                 contentItems,
                 applyAliases,
-                targetGraph.Conventions.Patterns.CompileRefAssemblies,
-                targetGraph.Conventions.Patterns.CompileLibAssemblies);
+                managedCodeConventions.Patterns.CompileRefAssemblies,
+                managedCodeConventions.Patterns.CompileLibAssemblies);
 
             lockFileLib.CompileTimeAssemblies.AddRange(compileGroup);
 
@@ -708,7 +707,7 @@ namespace NuGet.Commands
                 {
                     foreach (var item in group.Items)
                     {
-                        var newItem = new LockFileItem(item.Path);
+                        var newItem = itemFactory(item);
                         object locale;
                         if (item.Properties.TryGetValue("locale", out locale))
                         {
@@ -806,7 +805,7 @@ namespace NuGet.Commands
         private static List<SelectionCriteria> CreateCriteria(
             ManagedCodeConventions conventions,
             NuGetFramework framework,
-            string runtimeIdentifier)
+            string runtimeIdentifier = null)
         {
             var managedCriteria = new List<SelectionCriteria>(1);
 
