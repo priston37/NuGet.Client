@@ -13,6 +13,7 @@ using NuGet.Frameworks;
 using NuGet.LibraryModel;
 using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
+using NuGet.Shared;
 
 namespace NuGet.DependencyResolver
 {
@@ -23,13 +24,12 @@ namespace NuGet.DependencyResolver
             LibraryRange libraryRange,
             NuGetFramework framework,
             string runtimeIdentifier,
-            RemoteWalkContext context,
-            CancellationToken cancellationToken)
+            RemoteWalkContext context)
         {
             var key = new LibraryRangeCacheKey(libraryRange, framework);
 
             return cache.GetOrAdd(key, (cacheKey) =>
-                FindLibraryEntryAsync(cacheKey.LibraryRange, framework, runtimeIdentifier, context, cancellationToken));
+                FindLibraryEntryAsync(cacheKey.LibraryRange, framework, runtimeIdentifier, context, CancellationToken.None));
         }
 
         public static async Task<GraphItem<RemoteResolveResult>> FindLibraryEntryAsync(
@@ -131,7 +131,7 @@ namespace NuGet.DependencyResolver
                 Data = new RemoteResolveResult
                 {
                     Match = match,
-                    Dependencies = dependencies.Dependencies,
+                    Dependencies = dependencies.Dependencies.AsList(),
                     UsedATFForDependencies = dependencies.UsedATFForDependencies,
                 },
             };

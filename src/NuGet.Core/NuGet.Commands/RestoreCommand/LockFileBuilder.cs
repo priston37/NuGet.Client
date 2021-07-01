@@ -41,9 +41,7 @@ namespace NuGet.Commands
             return CreateLockFile(previousLockFile,
                 project,
                 targetGraphs,
-                localRepositories,
-                context,
-                new LockFileBuilderCache());
+                localRepositories);
         }
 
         public LockFile CreateLockFile(LockFile previousLockFile,

@@ -3206,8 +3206,7 @@ namespace NuGet.Commands.FuncTest
                 packageB.AddFile("lib/net472/b.dll");
 
                 // add A -> B
-
-                packageA.FrameworkContext.Add(new SimpleTestPackageFrameworkContext(NuGetFramework.Parse("net472"), new SimpleTestPackageContext[] { packageB }, new List<string>()));
+                packageA.PerFrameworkDependencies.Add(NuGetFramework.Parse("net472"), new List<SimpleTestPackageContext>() { packageB });
 
                 await SimpleTestPackageUtility.CreateFolderFeedV3Async(
                     pathContext.PackageSource,
@@ -3286,8 +3285,7 @@ namespace NuGet.Commands.FuncTest
 
 
                 // add A -> B
-
-                packageA.FrameworkContext.Add(new SimpleTestPackageFrameworkContext(NuGetFramework.Parse("net472"), new SimpleTestPackageContext[] { packageB }, new List<string>()));
+                packageA.PerFrameworkDependencies.Add(NuGetFramework.Parse("net472"), new List<SimpleTestPackageContext>() { packageB });
 
                 await SimpleTestPackageUtility.CreateFolderFeedV3Async(
                     pathContext.PackageSource,
@@ -3368,8 +3366,7 @@ namespace NuGet.Commands.FuncTest
 
 
                 // add A -> B
-
-                packageA.FrameworkContext.Add(new SimpleTestPackageFrameworkContext(NuGetFramework.Parse("net472"), new SimpleTestPackageContext[] { packageB }, new List<string>()));
+                packageA.PerFrameworkDependencies.Add(NuGetFramework.Parse("net472"), new List<SimpleTestPackageContext>() { packageB });
 
                 await SimpleTestPackageUtility.CreateFolderFeedV3Async(
                     pathContext.PackageSource,

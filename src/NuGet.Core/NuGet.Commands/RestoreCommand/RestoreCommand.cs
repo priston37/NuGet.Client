@@ -253,7 +253,8 @@ namespace NuGet.Commands
                     _request.ExistingLockFile,
                     _request.Project,
                     graphs,
-                    localRepositories);
+                    localRepositories,
+                    contextForProject);
                 telemetry.EndIntervalMeasure(GenerateAssetsFileDuration);
 
                 IList<CompatibilityCheckResult> checkResults = null;
@@ -734,7 +735,8 @@ namespace NuGet.Commands
             LockFile existingLockFile,
             PackageSpec project,
             IEnumerable<RestoreTargetGraph> graphs,
-            IReadOnlyList<NuGetv3LocalRepository> localRepositories)
+            IReadOnlyList<NuGetv3LocalRepository> localRepositories,
+            RemoteWalkContext contextForProject)
         {
             // Build the lock file
             var lockFile = new LockFileBuilder(_request.LockFileVersion, _logger, _includeFlagGraphs)
@@ -743,7 +745,7 @@ namespace NuGet.Commands
                         project,
                         graphs,
                         localRepositories,
-                        contextForProject,
+                        contextForProject, // TODO NK - Remove, cleanup?
                         _lockFileBuilderCache);
 
             return lockFile;

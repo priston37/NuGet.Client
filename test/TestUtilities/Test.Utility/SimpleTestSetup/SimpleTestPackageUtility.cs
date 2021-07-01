@@ -214,26 +214,23 @@ namespace NuGet.Test.Utility
                     }
                 }
 
-                if (packageContext.FrameworkContext.Any(e => e.FrameworkReferences.Any()))
+                if (packageContext.FrameworkReferences.Any())
                 {
                     var metadata = xml.Element(XName.Get("package")).Element(XName.Get("metadata"));
                     var frameworkReferencesNode = new XElement(XName.Get("frameworkReferences"));
 
                     foreach (var kvp in packageContext.FrameworkReferences)
                     {
-                        foreach (var frameworkReferences in frameworkContext.FrameworkReferences)
-                        {
-                            var groupNode = new XElement(XName.Get("group"));
-                            groupNode.SetAttributeValue("targetFramework", frameworkContext.Framework.GetFrameworkString());
-                            frameworkReferencesNode.Add(groupNode);
-                            metadata.Add(frameworkReferencesNode);
+                        var groupNode = new XElement(XName.Get("group"));
+                        groupNode.SetAttributeValue("targetFramework", kvp.Key.GetFrameworkString());
+                        frameworkReferencesNode.Add(groupNode);
+                        metadata.Add(frameworkReferencesNode);
 
-                            foreach (var frameworkReference in frameworkReferences)
-                            {
-                                var node = new XElement(XName.Get("frameworkReference"));
-                                groupNode.Add(node);
-                                node.Add(new XAttribute(XName.Get("name"), frameworkReference));
-                            }
+                        foreach (var frameworkReference in kvp.Value)
+                        {
+                            var node = new XElement(XName.Get("frameworkReference"));
+                            groupNode.Add(node);
+                            node.Add(new XAttribute(XName.Get("name"), frameworkReference));
                         }
                     }
                 }

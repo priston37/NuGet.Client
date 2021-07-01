@@ -262,8 +262,7 @@ namespace NuGet.Commands
                 framework,
                 runtimeIdentifier,
                 runtimeGraph,
-                recursive: true,
-                token: token)
+                recursive: true)
             };
 
             // Resolve conflicts

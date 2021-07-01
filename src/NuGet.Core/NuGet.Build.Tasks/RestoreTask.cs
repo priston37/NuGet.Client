@@ -92,7 +92,7 @@ namespace NuGet.Build.Tasks
             log.LogDebug($"(in) RestoreRecursive '{RestoreRecursive}'");
             log.LogDebug($"(in) RestoreForce '{RestoreForce}'");
             log.LogDebug($"(in) HideWarningsAndErrors '{HideWarningsAndErrors}'");
-            log.LogDebug($"(in) Interactive '{Interactive}'")
+            log.LogDebug($"(in) Interactive '{Interactive}'");
             log.LogDebug($"(in) RestoreForceEvaluate '{RestoreForceEvaluate}'");
             log.LogDebug($"(in) RestorePackagesConfig '{RestorePackagesConfig}'");
 

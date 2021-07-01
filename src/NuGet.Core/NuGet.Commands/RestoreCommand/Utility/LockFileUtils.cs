@@ -199,7 +199,6 @@ namespace NuGet.Commands
 
             // ref takes precedence over lib
             var compileGroup = GetLockFileItems(
-                LockFileItemFactory,
                 orderedCriteria,
                 contentItems,
                 applyAliases,
@@ -210,7 +209,6 @@ namespace NuGet.Commands
 
             // Runtime
             var runtimeGroup = GetLockFileItems(
-                                LockFileItemFactory,
                 orderedCriteria,
                 contentItems,
                 managedCodeConventions.Patterns.RuntimeAssemblies);
@@ -219,8 +217,6 @@ namespace NuGet.Commands
 
             // Embed
             var embedGroup = GetLockFileItems(
-                                LockFileItemFactory,
-
                 orderedCriteria,
                 contentItems,
                 managedCodeConventions.Patterns.EmbedAssemblies);
@@ -229,8 +225,6 @@ namespace NuGet.Commands
 
             // Resources
             var resourceGroup = GetLockFileItems(
-                                LockFileItemFactory,
-
                 orderedCriteria,
                 contentItems,
                 managedCodeConventions.Patterns.ResourceAssemblies);
@@ -239,8 +233,6 @@ namespace NuGet.Commands
 
             // Native
             var nativeGroup = GetLockFileItems(
-                                LockFileItemFactory,
-
                 orderedCriteria,
                 contentItems,
                 managedCodeConventions.Patterns.NativeLibraries);
@@ -248,7 +240,7 @@ namespace NuGet.Commands
             lockFileLib.NativeLibraries.AddRange(nativeGroup);
 
             // Add MSBuild files
-            AddMSBuildAssets(libraryName, managedCodeConventions, lockFileLib, orderedCriteria, contentItems);
+            AddMSBuildAssets(library.Name, managedCodeConventions, lockFileLib, orderedCriteria, contentItems);
 
             // Add content files
             AddContentFiles(managedCodeConventions, lockFileLib, framework, contentItems, nuspec);
@@ -274,8 +266,6 @@ namespace NuGet.Commands
         {
             // Build Transitive
             var btGroup = GetLockFileItems(
-                                LockFileItemFactory,
-
                 orderedCriteria,
                 contentItems,
                 managedCodeConventions.Patterns.MSBuildTransitiveFiles);
@@ -285,8 +275,6 @@ namespace NuGet.Commands
 
             // Build
             var buildGroup = GetLockFileItems(
-                                LockFileItemFactory,
-
                 orderedCriteria,
                 contentItems,
                 managedCodeConventions.Patterns.MSBuildFiles);
@@ -300,8 +288,6 @@ namespace NuGet.Commands
 
             // Build multi targeting
             var buildMultiTargetingGroup = GetLockFileItems(
-                                LockFileItemFactory,
-
                 orderedCriteria,
                 contentItems,
                 managedCodeConventions.Patterns.MSBuildMultiTargetingFiles);
@@ -316,8 +302,6 @@ namespace NuGet.Commands
             IReadOnlyList<SelectionCriteria> orderedCriteria)
         {
             var toolsGroup = GetLockFileItems(
-                                LockFileItemFactory,
-
                 orderedCriteria,
                 contentItems,
                 managedCodeConventions.Patterns.ToolsAssemblies);
@@ -617,8 +601,6 @@ namespace NuGet.Commands
                     // Compile
                     // ref takes precedence over lib
                     var compileGroup = GetLockFileItems(
-                                        LockFileItemFactory,
-
                         orderedCriteria,
                         contentItems,
                         targetGraph.Conventions.Patterns.CompileRefAssemblies,
@@ -629,8 +611,6 @@ namespace NuGet.Commands
 
                     // Runtime
                     var runtimeGroup = GetLockFileItems(
-                                        LockFileItemFactory,
-
                         orderedCriteria,
                         contentItems,
                         targetGraph.Conventions.Patterns.RuntimeAssemblies);
@@ -689,8 +669,7 @@ namespace NuGet.Commands
         /// Create lock file items for the best matching group.
         /// </summary>
         /// <remarks>Enumerate this once after calling.</remarks>
-        private static IEnumerable<TResult> GetLockFileItems<TResult>(
-            Func<ContentItem, TResult> itemFactory,
+        private static IEnumerable<LockFileItem> GetLockFileItems(
             IReadOnlyList<SelectionCriteria> criteria,
             ContentItemCollection items,
             Action<LockFileItem> additionalAction,
@@ -707,7 +686,7 @@ namespace NuGet.Commands
                 {
                     foreach (var item in group.Items)
                     {
-                        var newItem = itemFactory(item);
+                        var newItem = new LockFileItem(item.Path);
                         object locale;
                         if (item.Properties.TryGetValue("locale", out locale))
                         {
@@ -722,18 +701,6 @@ namespace NuGet.Commands
             }
 
             yield break;
-        }
-
-        private static LockFileItem LockFileItemFactory(ContentItem item)
-        {
-            var newItem = new LockFileItem(item.Path);
-            object locale;
-            if (item.Properties.TryGetValue("locale", out locale))
-            {
-                newItem.Properties["locale"] = (string)locale;
-            }
-
-            return newItem;
         }
 
         /// <summary>
