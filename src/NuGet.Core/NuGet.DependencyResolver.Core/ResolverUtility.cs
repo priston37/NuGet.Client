@@ -132,7 +132,7 @@ namespace NuGet.DependencyResolver
                 {
                     Match = match,
                     Dependencies = dependencies.Dependencies.AsList(),
-                    UsedATFForDependencies = dependencies.UsedATFForDependencies,
+                    UsedAssetTargetFallback = dependencies.UsedATFForDependencies,
                 },
             };
         }

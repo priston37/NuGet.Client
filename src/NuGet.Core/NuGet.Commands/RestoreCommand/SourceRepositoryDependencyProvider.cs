@@ -62,7 +62,7 @@ namespace NuGet.Commands
         /// is <c>null</c>.</exception>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="logger" /> is <c>null</c>.</exception>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="cacheContext" /> is <c>null</c>.</exception>
-        internal SourceRepositoryDependencyProvider(
+        public SourceRepositoryDependencyProvider(
             SourceRepository sourceRepository,
             ILogger logger,
             SourceCacheContext cacheContext,
@@ -349,24 +349,22 @@ namespace NuGet.Commands
                     targetFramework,
                     item => item.TargetFramework);
 
-                bool ATFUsedWhenSelectingDependencies = false;
-                // TODO NK - We might need to consider the fact that any framework might be the result here, and check for ATF even if it is.
+                bool assetTargetFallbackUsed = false;
                 // FrameworkReducer.GetNearest does not consider ATF since it is used for more than just compat
-                if (dependencyGroup == null && targetFramework is AssetTargetFallbackFramework)
+                if (dependencyGroup == null &&
+                    targetFramework is AssetTargetFallbackFramework assetTargetFallbackFramework)
                 {
-                    var atfFramework = targetFramework as AssetTargetFallbackFramework;
                     dependencyGroup = NuGetFrameworkUtility.GetNearest(packageInfo.DependencyGroups,
-                        atfFramework.AsFallbackFramework(),
+                        assetTargetFallbackFramework.AsFallbackFramework(),
                         item => item.TargetFramework);
-                    ATFUsedWhenSelectingDependencies = dependencyGroup != null;
+                    assetTargetFallbackUsed = dependencyGroup != null;
                 }
 
                 var dependencies = dependencyGroup != null ?
                      dependencyGroup.Packages.Select(PackagingUtility.GetLibraryDependencyFromNuspec).ToArray() :
                      Enumerable.Empty<LibraryDependency>();
 
-                // TODO NK - Provide the library dependency info information here and propagate it!
-                return LibraryDependencyInfo.Create(originalIdentity, targetFramework, dependencies, ATFUsedWhenSelectingDependencies);
+                return LibraryDependencyInfo.Create(originalIdentity, targetFramework, dependencies, assetTargetFallbackUsed);
             }
         }
 
